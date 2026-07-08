@@ -23,9 +23,9 @@ def write(rel: str, text: str) -> None:
     path(rel).write_text(text, encoding="utf-8")
 
 
-def run(cmd, cwd=None):
+def run(cmd, cwd=None, check=True):
     print("+", " ".join(cmd), flush=True)
-    subprocess.run(cmd, cwd=cwd or ROOT, check=True)
+    return subprocess.run(cmd, cwd=cwd or ROOT, check=check)
 
 
 def load_module(file_name: str, module_name: str):
@@ -113,11 +113,14 @@ def patch_hotkey_tests_v3():
 
 
 def cleanup_temp_files():
+    run(["git", "fetch", "origin", "beta", "--depth", "1"], check=False)
+    run(["git", "checkout", "origin/beta", "--", ".github/workflows/ci.yml"], check=False)
     for rel in [
         ".github/workflows/apply-voice-pipeline-patch.yml",
         "scripts/apply_voice_pipeline_patch.py",
         "scripts/apply_voice_pipeline_patch_v2.py",
         "scripts/apply_voice_pipeline_patch_v3.py",
+        "VOICE_PIPELINE_PATCH_FAILURE.log",
     ]:
         p = path(rel)
         if p.exists():
