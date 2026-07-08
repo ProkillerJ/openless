@@ -1,7 +1,7 @@
 + cargo fmt --manifest-path openless-all/app/src-tauri/Cargo.toml
 + npm ci
 
-added 91 packages, and audited 92 packages in 4s
+added 91 packages, and audited 92 packages in 2s
 
 10 packages are looking for funding
   run `npm fund` for details
