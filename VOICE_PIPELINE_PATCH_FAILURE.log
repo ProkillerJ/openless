@@ -1,14 +1,35 @@
-::error::ensure_asr_credentials provider overload: expected one match, got 0
++ cargo fmt --manifest-path openless-all/app/src-tauri/Cargo.toml
++ npm ci
+
+added 91 packages, and audited 92 packages in 2s
+
+10 packages are looking for funding
+  run `npm fund` for details
+
+4 vulnerabilities (1 low, 2 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
++ npm run build
+
+> openless-app@1.3.6-4 build
+> tsc && vite build
+
+src/lib/stylePrefs.test.ts(18,7): error TS2739: Type '{ hotkey: { trigger: "rightOption"; mode: "toggle"; }; dictationHotkey: { primary: string; modifiers: never[]; }; defaultMode: "light"; enabledModes: ("raw" | "light" | "structured")[]; activeStylePackId: string; ... 63 more ...; androidOverlaySizeDp: number; }' is missing the following properties from type 'UserPreferences': voicePipelines, activeVoicePipelineId
+::error::Command '['npm', 'run', 'build']' returned non-zero exit status 2.
 Traceback (most recent call last):
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v4.py", line 398, in <module>
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v5.py", line 133, in <module>
     main()
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v4.py", line 373, in main
-    old.patch_all()
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch.py", line 1150, in patch_all
-    patch_coordinator_helpers_rs()
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v2.py", line 76, in patch_coordinator_helpers_rs_fixed
-    text = replace_once(text, old, new, "ensure_asr_credentials provider overload")
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v2.py", line 30, in replace_once
-    raise RuntimeError(f"{label}: expected one match, got {count}")
-RuntimeError: ensure_asr_credentials provider overload: expected one match, got 0
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v5.py", line 117, in main
+    run(["npm", "run", "build"], cwd=path("openless-all/app"))
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v5.py", line 27, in run
+    return subprocess.run(cmd, cwd=cwd or ROOT, check=check)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['npm', 'run', 'build']' returned non-zero exit status 2.
