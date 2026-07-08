@@ -6,6 +6,7 @@ on:
     paths:
       - scripts/apply_voice_pipeline_patch.py
       - scripts/apply_voice_pipeline_patch_v2.py
+      - scripts/apply_voice_pipeline_patch_v3.py
       - .github/workflows/apply-voice-pipeline-patch.yml
   workflow_dispatch:
 
@@ -45,4 +46,16 @@ jobs:
             libxdo-dev \
             wget
       - name: Apply patch and verify
-        run: python3 scripts/apply_voice_pipeline_patch_v2.py
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/apply_voice_pipeline_patch_v3.py 2>&1 | tee VOICE_PIPELINE_PATCH_FAILURE.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add VOICE_PIPELINE_PATCH_FAILURE.log
+            git commit -m "Log voice pipeline patch failure" || true
+            git push origin HEAD:feature/hotkey-speech-pipelines || true
+            exit "$status"
+          fi
