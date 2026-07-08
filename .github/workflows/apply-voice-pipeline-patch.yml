@@ -1,0 +1,47 @@
+name: Apply voice pipeline patch
+
+on:
+  push:
+    branches: [feature/hotkey-speech-pipelines]
+    paths:
+      - scripts/apply_voice_pipeline_patch.py
+      - .github/workflows/apply-voice-pipeline-patch.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/hotkey-speech-pipelines
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: openless-all/app/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            curl \
+            file \
+            libasound2-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libssl-dev \
+            libwebkit2gtk-4.1-dev \
+            libxdo-dev \
+            wget
+      - name: Apply patch and verify
+        run: python3 scripts/apply_voice_pipeline_patch.py
