@@ -1,7 +1,7 @@
 + cargo fmt --manifest-path openless-all/app/src-tauri/Cargo.toml
 + npm ci
 
-added 91 packages, and audited 92 packages in 3s
+added 91 packages, and audited 92 packages in 4s
 
 10 packages are looking for funding
   run `npm fund` for details
@@ -23,11 +23,11 @@ Run `npm audit` for details.
 src/lib/stylePrefs.test.ts(18,7): error TS2739: Type '{ hotkey: { trigger: "rightOption"; mode: "toggle"; }; dictationHotkey: { primary: string; modifiers: never[]; }; defaultMode: "light"; enabledModes: ("raw" | "light" | "structured")[]; activeStylePackId: string; ... 63 more ...; androidOverlaySizeDp: number; }' is missing the following properties from type 'UserPreferences': voicePipelines, activeVoicePipelineId
 ::error::Command '['npm', 'run', 'build']' returned non-zero exit status 2.
 Traceback (most recent call last):
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v5.py", line 133, in <module>
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v6.py", line 134, in <module>
     main()
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v5.py", line 117, in main
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v6.py", line 118, in main
     run(["npm", "run", "build"], cwd=path("openless-all/app"))
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v5.py", line 27, in run
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v6.py", line 28, in run
     return subprocess.run(cmd, cwd=cwd or ROOT, check=check)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/lib/python3.12/subprocess.py", line 571, in run
