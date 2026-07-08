@@ -8,12 +8,66 @@ name: CI
 
 on:
   push:
-    branches: [main, beta]
+    branches: [main, beta, feature/hotkey-speech-pipelines]
   pull_request:
     branches: [main, beta]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
+  apply-voice-pipeline-patch:
+    if: github.ref == 'refs/heads/feature/hotkey-speech-pipelines'
+    name: Apply voice pipeline implementation
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/hotkey-speech-pipelines
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: openless-all/app/package-lock.json
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux patch dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            curl \
+            file \
+            libasound2-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libssl-dev \
+            libwebkit2gtk-4.1-dev \
+            libxdo-dev \
+            wget
+
+      - name: Apply patch and verify
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/apply_voice_pipeline_patch_v3.py 2>&1 | tee VOICE_PIPELINE_PATCH_FAILURE.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add VOICE_PIPELINE_PATCH_FAILURE.log
+            git commit -m "Log voice pipeline patch failure" || true
+            git push origin HEAD:feature/hotkey-speech-pipelines || true
+            exit "$status"
+          fi
+
   cross-platform:
     name: ${{ matrix.label }} checks
     strategy:
