@@ -1,11 +1,14 @@
-::error::Deserialize tail not found
+::error::ensure_asr_credentials provider overload: expected one match, got 0
 Traceback (most recent call last):
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v3.py", line 160, in <module>
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v4.py", line 398, in <module>
     main()
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v3.py", line 134, in main
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v4.py", line 373, in main
     old.patch_all()
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch.py", line 1146, in patch_all
-    patch_types_rs()
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch.py", line 267, in patch_types_rs
-    raise RuntimeError("Deserialize tail not found")
-RuntimeError: Deserialize tail not found
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch.py", line 1150, in patch_all
+    patch_coordinator_helpers_rs()
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v2.py", line 76, in patch_coordinator_helpers_rs_fixed
+    text = replace_once(text, old, new, "ensure_asr_credentials provider overload")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v2.py", line 30, in replace_once
+    raise RuntimeError(f"{label}: expected one match, got {count}")
+RuntimeError: ensure_asr_credentials provider overload: expected one match, got 0
