@@ -70,6 +70,27 @@ def patch_settings_sync_v10():
     write(rel, text)
 
 
+def patch_hotkey_collision_v10_1():
+    rel = "openless-all/app/src-tauri/src/commands/hotkeys.rs"
+    text = read(rel)
+    old = """        for (index, pipeline) in enabled.iter().enumerate() {
+            if pipeline.hotkey.primary.trim().is_empty() {
+"""
+    new = """        for (index, pipeline) in enabled.iter().enumerate() {
+            // The default profile is a compatibility mirror of legacy dictation settings. It is
+            // not registered as an extra pipeline hotkey, and legacy dictation/action collision
+            // checks already cover the real default dictation entry point. Skipping it here
+            // prevents stale default-profile values from blocking unrelated legacy settings saves.
+            if pipeline.is_default_profile() {
+                continue;
+            }
+            if pipeline.hotkey.primary.trim().is_empty() {
+"""
+    if old in text and "stale default-profile values" not in text:
+        text = text.replace(old, new, 1)
+    write(rel, text)
+
+
 def cleanup_temp_files():
     run(["git", "fetch", "origin", "beta", "--depth", "1"], check=False)
     run(["git", "checkout", "origin/beta", "--", ".github/workflows/ci.yml"], check=False)
@@ -85,6 +106,7 @@ def cleanup_temp_files():
         "scripts/apply_voice_pipeline_patch_v8.py",
         "scripts/apply_voice_pipeline_patch_v9.py",
         "scripts/apply_voice_pipeline_patch_v10.py",
+        "scripts/apply_voice_pipeline_patch_v11.py",
         "VOICE_PIPELINE_PATCH_FAILURE.log",
     ]:
         p = path(rel)
@@ -114,6 +136,7 @@ def main():
     v8.patch_fake_settings_writer_v8()
     v9.patch_user_preferences_default_v9()
     patch_settings_sync_v10()
+    patch_hotkey_collision_v10_1()
 
     run(["cargo", "fmt", "--manifest-path", "openless-all/app/src-tauri/Cargo.toml"])
     run(["npm", "ci"], cwd=path("openless-all/app"))
