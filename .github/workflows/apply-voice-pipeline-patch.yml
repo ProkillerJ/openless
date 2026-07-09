@@ -14,6 +14,7 @@ on:
       - scripts/apply_voice_pipeline_patch_v8.py
       - scripts/apply_voice_pipeline_patch_v9.py
       - scripts/apply_voice_pipeline_patch_v10.py
+      - scripts/apply_voice_pipeline_patch_v11.py
       - .github/workflows/apply-voice-pipeline-patch.yml
   workflow_dispatch:
 
@@ -56,7 +57,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          python3 scripts/apply_voice_pipeline_patch_v10.py 2>&1 | tee VOICE_PIPELINE_PATCH_FAILURE.log
+          python3 scripts/apply_voice_pipeline_patch_v11.py 2>&1 | tee VOICE_PIPELINE_PATCH_FAILURE.log
           status=${PIPESTATUS[0]}
           if [ "$status" -ne 0 ]; then
             git config user.name "github-actions[bot]"
