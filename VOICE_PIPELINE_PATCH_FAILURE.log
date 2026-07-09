@@ -1,9 +1,9 @@
-::error::voice pipeline collision block not found
+::error::if !pipeline.is_default_profile() anchor not found
 Traceback (most recent call last):
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v12.py", line 138, in <module>
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v13.py", line 126, in <module>
     main()
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v12.py", line 118, in main
-    patch_hotkey_collision_v12()
-  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v12.py", line 67, in patch_hotkey_collision_v12
-    raise RuntimeError("voice pipeline collision block not found")
-RuntimeError: voice pipeline collision block not found
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v13.py", line 106, in main
+    patch_hotkey_collision_v13()
+  File "/home/runner/work/openless/openless/scripts/apply_voice_pipeline_patch_v13.py", line 53, in patch_hotkey_collision_v13
+    raise RuntimeError("if !pipeline.is_default_profile() anchor not found")
+RuntimeError: if !pipeline.is_default_profile() anchor not found
